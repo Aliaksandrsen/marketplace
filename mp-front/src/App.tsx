@@ -1,7 +1,11 @@
+import { Suspense } from 'react';
+import PublicRoutes from 'routes/PublicRoutes';
+
 export const App = () => {
   return (
-    <div>
-      <h1>Hello</h1>
-    </div>
+    <Suspense fallback={'Loading...'}>
+      <PublicRoutes />
+      {/* <PrivateRoustes /> */}
+    </Suspense>
   );
 };

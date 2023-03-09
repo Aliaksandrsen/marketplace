@@ -1,14 +1,17 @@
 import { Helmet } from 'react-helmet';
 
-import { StyledDiv } from './styled';
+import { PageWrapper } from 'App.styled';
 
-export const HomePage: React.FC = () => {
+const HomePage: React.FC = () => {
   return (
     <>
       <Helmet>
-        <title>Home Page</title>
+        <title>Main - Marketplace</title>
       </Helmet>
-      <StyledDiv>Main Page</StyledDiv>
+
+      <PageWrapper>
+        <h1>Main</h1>
+      </PageWrapper>
     </>
   );
 };

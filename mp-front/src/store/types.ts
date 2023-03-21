@@ -16,3 +16,4 @@ export type T_AppThunk<T_ReturnType = void> = ThunkAction<
 >;
 export type T_Dispatch = typeof store.dispatch;
 export type T_Reducer<T, K = any> = CaseReducer<T, PayloadAction<K>>;
+export type T_PayloadAction = PayloadAction;

@@ -1,11 +1,15 @@
-// import { useCallback } from 'react'
-// import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom';
+import { useCallback, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 
 import Button from 'components/Button';
-// import { addToFavorites, removeFromFavorites } from 'features/Favorites/reducer'
+import { paths } from 'routes/helpers';
+import {
+  addToFavorites,
+  removeFromFavorites,
+} from 'features/Favorites/reducer';
 import { ReactComponent as HeartEmpty } from 'img/heart-empty.svg';
-// import { ReactComponent as HeartFilled } from 'img/heart-filled.svg'
+import { ReactComponent as HeartFilled } from 'img/heart-filled.svg';
 import {
   Wrapper,
   LikeWrapper,
@@ -16,6 +20,7 @@ import {
   PriceDiscounted,
   Title,
   Desc,
+  BtnsWrapper,
 } from './styled';
 
 interface I_ProductCardProps {
@@ -26,7 +31,7 @@ interface I_ProductCardProps {
   priceDiscounted?: number;
   title: string;
   desc: string;
-  // isLiked: boolean
+  isLiked: boolean;
   hideLikes?: boolean;
 }
 
@@ -38,30 +43,42 @@ const ProductCard: React.FC<I_ProductCardProps> = ({
   priceDiscounted,
   title,
   desc,
-  // isLiked,
+  isLiked,
   hideLikes = false,
 }) => {
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const location = useLocation();
 
-  // const handleFavorites = useCallback((e: React.MouseEvent<HTMLElement>) => {
-  //   const { productId } = e.currentTarget.dataset
+  const handleFavorites = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      const { productId } = e.currentTarget.dataset;
 
-  //   dispatch(
-  //     !isLiked
-  //       ? addToFavorites(+productId!)
-  //       : removeFromFavorites(+productId!)
-  //   )
-  // }, [ dispatch, isLiked ])
+      dispatch(
+        !isLiked
+          ? addToFavorites(+productId!)
+          : removeFromFavorites(+productId!)
+      );
+    },
+    [dispatch, isLiked]
+  );
+
+  const isFavoritesPage = useMemo(
+    () => location.pathname === paths.favorites,
+    [location.pathname]
+  );
+
+  const removeFavorite = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      dispatch(removeFromFavorites(+e.currentTarget.dataset.productId!));
+    },
+    [dispatch]
+  );
 
   return (
     <Wrapper>
       {!hideLikes && (
-        <LikeWrapper
-          data-product-id={id}
-          // onClick={handleFavorites}
-        >
-          {/* {isLiked ? <HeartFilled /> : <HeartEmpty />} */}
-          <HeartEmpty />
+        <LikeWrapper data-product-id={id} onClick={handleFavorites}>
+          {isLiked ? <HeartFilled /> : <HeartEmpty />}
         </LikeWrapper>
       )}
 
@@ -88,7 +105,20 @@ const ProductCard: React.FC<I_ProductCardProps> = ({
 
       <Desc>{desc}</Desc>
 
-      <Button>Add to cart</Button>
+      <BtnsWrapper>
+        <Button block>Add to cart</Button>
+
+        {isFavoritesPage && (
+          <Button
+            type="danger"
+            block
+            onClick={removeFavorite}
+            data-product-id={id}
+          >
+            Delete
+          </Button>
+        )}
+      </BtnsWrapper>
     </Wrapper>
   );
 };

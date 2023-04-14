@@ -21,3 +21,15 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+ 
+# Generated files
+storage/*
+!storage/images/
+!storage/.gitkeep
+
+storage/images/*
+!storage/images/products/
+!storage/images/.gitkeep
+
+storage/images/products/*
+!storage/images/products/.gitkeep

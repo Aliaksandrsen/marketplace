@@ -42,7 +42,7 @@ const ProductDetailsPage: React.FC = () => {
   const idsInFavorites = useSelector(selectFavorites);
 
   const isLiked = useMemo(
-    () => idsInFavorites.includes(productDetails?.id as number),
+    () => idsInFavorites.includes(productDetails?.id!),
     [idsInFavorites, productDetails]
   );
 

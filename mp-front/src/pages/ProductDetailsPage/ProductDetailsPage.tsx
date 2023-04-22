@@ -61,7 +61,7 @@ const ProductDetailsPage: React.FC = () => {
 
   if (!productDetails) return null;
 
-  const { id, imgSrc, title, desc, priceRegular, priceDiscounted } =
+  const { id, image, title, desc, priceRegular, priceDiscounted } =
     productDetails;
 
   return (
@@ -73,7 +73,7 @@ const ProductDetailsPage: React.FC = () => {
       <PageWrapper>
         <Wrapper>
           <ImagesWrapper>
-            <Image src={imgSrc} />
+            <Image src={image} />
 
             <LikeWrapper data-product-id={id} onClick={handleFavorites}>
               {isLiked ? <HeartFilled /> : <HeartEmpty />}
